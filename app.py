@@ -211,7 +211,7 @@ PRESET_HELP = C.PRESET_HELP
 preset_cols = st.columns(len(C.PRESETS))
 for i, name in enumerate(C.PRESETS.keys()):
     with preset_cols[i]:
-        st.button(name, use_container_width=True, on_click=apply_preset, args=(name,), help=PRESET_HELP[name])
+        st.button(name, width="stretch", on_click=apply_preset, args=(name,), help=PRESET_HELP[name])
 
 st.caption(
     "🔗 Die Adresszeile oben spiegelt Ihre aktuelle Konfiguration wider – einfach kopieren, "
@@ -236,7 +236,7 @@ with st.sidebar:
 
     st.button(
         "🎲 Neue Instanz generieren",
-        use_container_width=True,
+        width="stretch",
         on_click=randomize_seed,
         help="Würfelt einen neuen Zufalls-Seed für Auftragspositionen und -dauern.",
     )
@@ -301,7 +301,7 @@ with step_col:
     else:
         step = st.slider("Schritt (Auftragsvergabe)", 0, max_step, key="cn_step")
 with play_col:
-    auto_play_cnp = st.button("▶️ Abspielen", use_container_width=True, key="cnp_play")
+    auto_play_cnp = st.button("▶️ Abspielen", width="stretch", key="cnp_play")
 
 chart_col, bid_col = st.columns([3, 2])
 schedule_slot = chart_col.empty()
@@ -311,11 +311,11 @@ bid_slot = bid_col.empty()
 def _render_cnp(current_step):
     schedule_slot.plotly_chart(
         build_schedule_figure(instance, cnp_result, current_step, ortools_makespan),
-        use_container_width=True, key=f"cnp_schedule_{current_step}",
+        width="stretch", key=f"cnp_schedule_{current_step}",
     )
     bid_slot.plotly_chart(
         build_bid_chart(cnp_result.steps[current_step]),
-        use_container_width=True, key=f"cnp_bids_{current_step}",
+        width="stretch", key=f"cnp_bids_{current_step}",
     )
 
 
@@ -360,7 +360,7 @@ with lstep_col:
             help="0 = frühester Zwischenstand, letzter Wert = fertig trainiert.",
         )
 with lplay_col:
-    auto_play_learn = st.button("▶️ Abspielen", use_container_width=True, key="learn_play")
+    auto_play_learn = st.button("▶️ Abspielen", width="stretch", key="learn_play")
 
 learn_left, learn_right = st.columns([3, 2])
 learn_curve_slot = learn_left.empty()
@@ -374,11 +374,11 @@ def _render_learn(idx):
     dispatch = run_dispatch(instance, greedy_policy(q), obs_fn)
     learn_curve_slot.plotly_chart(
         build_learning_curve(curve, cmp["cnp_nominal"], ortools_makespan, cmp["heldout_cnp_mean"], marker_episodes=ep),
-        use_container_width=True, key=f"learn_curve_{idx}",
+        width="stretch", key=f"learn_curve_{idx}",
     )
     learn_gantt_slot.plotly_chart(
         build_schedule_figure(instance, dispatch.protocol_result, instance.n_jobs - 1, ortools_makespan),
-        use_container_width=True, key=f"learn_gantt_{idx}",
+        width="stretch", key=f"learn_gantt_{idx}",
     )
     pct = (nominal - cmp["cnp_nominal"]) / cmp["cnp_nominal"] * 100.0
     learn_caption_slot.caption(
@@ -419,7 +419,7 @@ with pstep_col:
     else:
         policy_step = st.slider("Schritt (Auftragsvergabe)", 0, max_step, key="policy_step")
 with pplay_col:
-    auto_play_policy = st.button("▶️ Abspielen", use_container_width=True, key="policy_play")
+    auto_play_policy = st.button("▶️ Abspielen", width="stretch", key="policy_play")
 
 pchart_col, pinfo_col = st.columns([3, 2])
 pgantt_slot = pchart_col.empty()
@@ -430,10 +430,10 @@ pinfo_slot = pinfo_col.empty()
 def _render_policy(s):
     pgantt_slot.plotly_chart(
         build_schedule_figure(instance, final_dispatch.protocol_result, s, ortools_makespan),
-        use_container_width=True, key=f"policy_gantt_{s}",
+        width="stretch", key=f"policy_gantt_{s}",
     )
     pbid_slot.plotly_chart(
-        build_policy_step_chart(final_dispatch, s), use_container_width=True, key=f"policy_bids_{s}",
+        build_policy_step_chart(final_dispatch, s), width="stretch", key=f"policy_bids_{s}",
     )
     lines = []
     for agent in range(instance.n_agents):
@@ -581,7 +581,7 @@ with tab_guarantee:
     )
     g2.metric("Held-out-Instanzen schlechter als Contract Net", f"{cmp['heldout_lose_frac'] * 100:.0f} %")
     g3.metric("Schlechteste Instanz", f"{cmp['heldout_worst_pct']:+.0f} %", help="Größte Verschlechterung ggü. Contract Net.")
-    st.plotly_chart(build_ratio_histogram(cmp["heldout_ratios_pct"]), use_container_width=True, key="ratio_hist")
+    st.plotly_chart(build_ratio_histogram(cmp["heldout_ratios_pct"]), width="stretch", key="ratio_hist")
     st.markdown(
         f"**Auf frischen Szenarien** ({C.N_FRESH_SCENARIOS} neue Instanzen gleicher Größe, neue Positionen und "
         f"Dauern): dieselbe Policy liegt im Mittel bei **{gen['fresh_iql_vs_cnp_pct']:+.1f} %** gegenüber Contract Net "
@@ -634,7 +634,7 @@ with tab_nonstat:
             "des Lernens abhängt - plus Cross-Play zwischen den Läufen."
         )
     else:
-        st.plotly_chart(build_lottery_chart(lot), use_container_width=True, key="lottery_chart")
+        st.plotly_chart(build_lottery_chart(lot), width="stretch", key="lottery_chart")
         l1, l2, l3 = st.columns(3)
         l1.metric("Läufe schlechter als Contract Net", f"{lot['n_worse_than_cnp']} von {len(lot['seeds'])}")
         l2.metric("Streuung (Std, Held-out)", f"{lot['heldout_std_pct']:.1f} % von CNP")
@@ -662,7 +662,7 @@ with tab_nonstat:
             )
         st.plotly_chart(
             build_crossplay_heatmap(lot["crossplay_matrix"], lot["seeds"], cmp["heldout_cnp_mean"]),
-            use_container_width=True, key="crossplay_heatmap",
+            width="stretch", key="crossplay_heatmap",
         )
         st.caption(
             "Zeilen: Trainingslauf von Agent 1, Spalten: Trainingslauf der übrigen Agenten. Die Diagonale ist das "
