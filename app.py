@@ -480,7 +480,7 @@ if cmp["ortools_feasible"]:
         c3, "Zentrale Optimierung (CP-SAT)", cmp["optimum_reference"], cmp["iql_nominal"], "gelernt",
         help_text=f"Echter industrieller Solver, {cmp['ortools_wall_time']:.2f}s - "
         + ("beweist Optimalität." if cmp["ortools_optimal"] else "Zeitlimit erreicht, beste gefundene Lösung.")
-        + " CP-SAT rundet Zeiten auf; der Wert ist deshalb nie größer als eine zulässige Lösung angesetzt.",
+        + " CP-SAT sucht auf einem aufgerundeten 0,1-Minuten-Raster; gemeldet wird der exakt nachgerechnete Zeitplan (nie unter dem echten Optimum, höchstens wenige Promille darüber). Die Lücke wird nie größer als eine zulässige Lösung angesetzt.",
     )
 else:
     c3.metric("Zentrale Optimierung (CP-SAT)", "kein Ergebnis im Zeitlimit")

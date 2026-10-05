@@ -80,7 +80,7 @@ echten Code kalibriert (n=8, k=3, Streuung 0.3, Anfahrt 1.0; % gegenüber Contra
   Szenario-Seed entkoppelt; Held-out-Menge unabhängig vom Trainings-Seed.
 - **2x2-Miniatur**: 81 Policies enumeriert, Optimum 15, 18 Optimal-Policies, Nicht-Stationarität als
   exakter Fakt; IQL findet das Optimum in 10/10 Trainings-Seeds.
-- **Dominanz** (300 Instanzen): jede Policy ≥ `fixed_order_ceiling` ≥ CP-SAT-Optimum (bis auf Rundung);
+- **Dominanz** (300 Instanzen): jede Policy ≥ `fixed_order_ceiling` ≥ CP-SAT-Optimum (CP-SAT meldet den exakt nachgerechneten Zeitplan seines aufgerundeten Rastermodells: nie darunter, im Orakel-Vergleich mit exakter Teilmengen-DP höchstens 0,28 % darüber in 250 Zufallsinstanzen mit 4-6 Aufträgen und 2-3 Agenten; vorher bis 1,34 % in 60 Instanzen und bei 9 davon ein scheinbar „schlagendes“ Contract Net);
   Decke = memoisierte DP = Enumeration.
 - **Preset-Bänder**, **Lotterie-Streuung** und **Cross-Play-Strafe** als Regressionstests.
 - **AppTest-Rauchtests**: Default, jedes Preset, Umschalter (σ-Wert bleibt erhalten), Kleinstinstanz.
