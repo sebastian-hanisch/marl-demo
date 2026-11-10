@@ -516,7 +516,7 @@ if n_pct > C.WORSE_THAN_CNP_THRESHOLD_PCT or h_pct > C.WORSE_THAN_CNP_THRESHOLD_
         reasons.append("Starkes Rauschen: jede Episode sieht ein anderes Szenario, das Gelernte passt schlechter.")
     if not reasons:
         reasons.append(
-            "Die Agenten haben eine Konvention gelernt, die auf dieser Instanz oder ihren Varianten nicht trägt "
+            "Die Agenten haben eine Konvention gelernt, die auf dieser Instanz oder ihren Varianten nicht gilt "
             "(siehe Seed-Lotterie unten)."
         )
     st.warning(
